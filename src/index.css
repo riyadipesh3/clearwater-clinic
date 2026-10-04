@@ -1,0 +1,231 @@
+/* ============================================================================
+   TEMPLATE 06 - CLEARWATER CLINIC
+   Design read: general dental practice. Clinical, plain, light. Credibility
+   comes from legibility, so the page leans on space and type rather than
+   colour or motion. VARIANCE 3 / MOTION 2 / DENSITY 5. Restraint is the brief.
+
+   Theme lock: light only, one accent (teal), one radius (8px). No inverse
+   bands, no decorative dots, no pills over images, no marquee. Public Sans
+   does both display and body work: contrast comes from weight and size.
+
+   Accessibility overrides the aesthetic here. Every text colour below is
+   checked for WCAG AA against the surface it sits on, and form borders use a
+   stronger line than the page hairlines so controls clear 3:1 non-text
+   contrast. Decorative dividers are the one thing allowed to stay light.
+   ========================================================================= */
+
+@import 'tailwindcss';
+
+@import '@fontsource-variable/public-sans';
+
+/* --------------------------------------------------------------------------
+   TOKENS
+   -------------------------------------------------------------------------- */
+@theme {
+  --font-display: 'Public Sans Variable', system-ui, -apple-system, sans-serif;
+  --font-body: 'Public Sans Variable', system-ui, -apple-system, sans-serif;
+
+  --color-canvas: #ffffff;
+  --color-surface: #f6f9f9;
+  --color-ink: #0f161a;
+  --color-body: #454f53;
+  --color-mute: #667479;
+  --color-hairline: #e2e8e8;
+  --color-line: #7d8c8d;
+  --color-accent: #0f766e;
+  --color-accent-deep: #0a5a54;
+  --color-accent-soft: #e6f1ef;
+}
+
+:root {
+  --radius: 8px;
+}
+
+* {
+  border-radius: var(--radius);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100dvh;
+  background: var(--color-canvas);
+  color: var(--color-body);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-accent-soft);
+  color: var(--color-ink);
+}
+
+/* One visible focus treatment for the whole page. */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   COMPONENTS
+   -------------------------------------------------------------------------- */
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: 1400px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .shell {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  .display {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.032em;
+    line-height: 1.02;
+    color: var(--color-ink);
+    text-wrap: balance;
+  }
+
+  .display-xl {
+    font-size: clamp(2.4rem, 4.6vw, 3.75rem);
+  }
+
+  .display-lg {
+    font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+  }
+
+  .display-md {
+    font-size: clamp(1.5rem, 2.3vw, 2rem);
+  }
+
+  .lede {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    max-width: 60ch;
+    color: var(--color-body);
+  }
+
+  /* Small uppercase line above a section headline. Budget for this page is
+     one, used once above the hero. */
+  .micro {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    padding: 0.8125rem 1.5rem;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 160ms ease, color 160ms ease,
+      border-color 160ms ease, transform 120ms ease;
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn-primary {
+    background: var(--color-accent);
+    color: #ffffff;
+  }
+
+  .btn-primary:hover {
+    background: var(--color-accent-deep);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-ink);
+    border-color: var(--color-line);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--color-ink);
+  }
+
+  .frame {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-surface);
+  }
+
+  .frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Form control. Border is --color-line, not the page hairline, so the control
+     edge clears 3:1 on white. */
+  .field {
+    width: 100%;
+    background: var(--color-canvas);
+    border: 1px solid var(--color-line);
+    padding: 0.75rem 0.875rem;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--color-ink);
+  }
+
+  .field::placeholder {
+    color: var(--color-mute);
+  }
+
+  .field:focus {
+    border-color: var(--color-accent);
+  }
+
+  .field[aria-invalid='true'] {
+    border-color: #9b2c22;
+  }
+
+  /* The only motion on the page: a single gentle rise on first paint. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 620ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 620ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+@source "./**/*.{tsx,ts}";
